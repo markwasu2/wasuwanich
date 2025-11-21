@@ -1,27 +1,48 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { HOTSPOTS } from "./hotspots";
 
 export default function Home() {
   const [selectedHotspot, setSelectedHotspot] = useState<string | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const handleHotspotClick = (id: string) => {
     setSelectedHotspot(id);
   };
 
-  const toggleMusic = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
+  // Auto-play music when component mounts
+  useEffect(() => {
+    const playAudio = async () => {
+      if (audioRef.current) {
+        try {
+          // Set volume to ensure smooth playback
+          audioRef.current.volume = 0.7;
+          
+          // Attempt to play
+          await audioRef.current.play();
+        } catch (error) {
+          // Browser may block autoplay, user will need to interact first
+          console.log("Autoplay blocked. User interaction required.");
+          
+          // Add click listener to start music on first user interaction
+          const startMusic = async () => {
+            if (audioRef.current) {
+              try {
+                await audioRef.current.play();
+                document.removeEventListener("click", startMusic);
+              } catch (e) {
+                console.log("Failed to play audio:", e);
+              }
+            }
+          };
+          document.addEventListener("click", startMusic);
+        }
       }
-      setIsPlaying(!isPlaying);
-    }
-  };
+    };
+
+    playAudio();
+  }, []);
 
   const selectedHotspotData = HOTSPOTS.find((h) => h.id === selectedHotspot);
 
@@ -66,14 +87,14 @@ export default function Home() {
         </div>
       )}
 
-      {/* Music Control */}
-      <button className="music-button" onClick={toggleMusic}>
-        {isPlaying ? "🔇 Pause Music" : "🎵 Play Music"}
-      </button>
-
-      {/* Audio Element */}
-      <audio ref={audioRef} loop>
-        <source src="/audio/lofi.mp3" type="audio/mpeg" />
+      {/* Audio Element - Seamless Looping */}
+      <audio 
+        ref={audioRef} 
+        loop 
+        preload="auto"
+        playsInline
+      >
+        <source src="/audio/Tavern_Study_Loop_2025-11-21T234241.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
     </div>
