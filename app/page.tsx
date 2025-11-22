@@ -49,12 +49,7 @@ export default function Home() {
   return (
     <div className="scene-container">
       {/* Background Image */}
-      <div className="background-image">
-        {/* Placeholder for the magical bookstore image */}
-        <div className="placeholder-text">
-          Add your magical bookstore image to public/magic-bookstore.jpg
-        </div>
-      </div>
+      <div className="background-image"></div>
 
       {/* Hotspots */}
       {HOTSPOTS.map((hotspot) => (
