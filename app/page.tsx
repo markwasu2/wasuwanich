@@ -89,7 +89,7 @@ export default function Home() {
         preload="auto"
         playsInline
       >
-        <source src="/audio/Tavern_Study_Loop_2025-11-22T021641.mp3" type="audio/mpeg" />
+        <source src="/audio/Tavern_Study_Loop_2025-11-22T205621 (1).mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
     </div>
