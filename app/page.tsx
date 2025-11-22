@@ -16,8 +16,8 @@ export default function Home() {
     const playAudio = async () => {
       if (audioRef.current) {
         try {
-          // Set volume to 40% for subtle background ambience
-          audioRef.current.volume = 0.4;
+          // Set volume to 20% for very subtle background ambience
+          audioRef.current.volume = 0.2;
           
           // Attempt to play
           await audioRef.current.play();
@@ -89,7 +89,7 @@ export default function Home() {
         preload="auto"
         playsInline
       >
-        <source src="/audio/Tavern_Study_Loop_2025-11-21T234241.mp3" type="audio/mpeg" />
+        <source src="/audio/Tavern_Study_Loop_2025-11-22T021641.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
     </div>
