@@ -166,8 +166,8 @@ export const HOTSPOTS: Hotspot[] = [
     id: "celestial-art",
     x: 86.8,
     y: 30.0,
-    label: "Moon Art",
-    description: "A framed celestial map showing the phases of the moon and distant constellations...",
+    label: "Astrology Chart",
+    description: "An ancient astrological chart mapping the celestial bodies, moon phases, and zodiac signs. The stars whisper secrets of fate and fortune to those who know how to listen...",
   },
   {
     id: "hanging-ivy",
