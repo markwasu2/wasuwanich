@@ -134,8 +134,8 @@ export const HOTSPOTS: Hotspot[] = [
   },
   {
     id: "side-candle",
-    x: 19.0,
-    y: 63.0,
+    x: 18.8,
+    y: 55.7,
     label: "Shelf Candle",
     description: "A small candle nestled between books, keeping watch through the night...",
   },
@@ -148,8 +148,8 @@ export const HOTSPOTS: Hotspot[] = [
   },
   {
     id: "crystal-geode",
-    x: 18.8,
-    y: 55.7,
+    x: 16.5,
+    y: 64.5,
     label: "Crystal Geode",
     description: "A beautiful geode catches the light, its crystals sparkling like stars...",
   },
