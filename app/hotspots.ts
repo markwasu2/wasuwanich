@@ -39,8 +39,8 @@ export const HOTSPOTS: Hotspot[] = [
   },
   {
     id: "ink-bottle",
-    x: 67.0,
-    y: 68.0,
+    x: 71.5,
+    y: 67.5,
     label: "Ink & Quill",
     description: "A delicate ink pot and quill, ready for writing letters to distant friends...",
   },
