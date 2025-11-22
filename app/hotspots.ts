@@ -18,8 +18,8 @@ export const HOTSPOTS: Hotspot[] = [
   },
   {
     id: "coffee-mug",
-    x: 54.9,
-    y: 61.2,
+    x: 58.5,
+    y: 59.5,
     label: "Steaming Coffee",
     description: "A warm cup of coffee, still steaming. Someone was just here...",
   },
@@ -32,8 +32,8 @@ export const HOTSPOTS: Hotspot[] = [
   },
   {
     id: "book-stack",
-    x: 52.9,
-    y: 67.6,
+    x: 51.5,
+    y: 69.0,
     label: "Antique Books",
     description: "A carefully stacked collection of leather-bound volumes, worn with time...",
   },
