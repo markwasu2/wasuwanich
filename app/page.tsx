@@ -8,9 +8,11 @@ export default function Home() {
   const [showEnvelope, setShowEnvelope] = useState(false);
   const [showLetter, setShowLetter] = useState(false);
   const [showAnimalPrints, setShowAnimalPrints] = useState(false);
+  const [showBlankPage, setShowBlankPage] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const paperSoundRef = useRef<HTMLAudioElement>(null);
+  const pageFlipSoundRef = useRef<HTMLAudioElement>(null);
   const meowSoundRef = useRef<HTMLAudioElement>(null);
   const purrSoundRef = useRef<HTMLAudioElement>(null);
 
@@ -46,6 +48,20 @@ export default function Home() {
 
   const closeAnimalPrints = () => {
     setShowAnimalPrints(false);
+    setShowBlankPage(false);
+  };
+
+  const handleAnimalPrintsClick = () => {
+    if (!showBlankPage) {
+      // Play page flip sound
+      if (pageFlipSoundRef.current) {
+        pageFlipSoundRef.current.currentTime = 0;
+        pageFlipSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
+      }
+      
+      // Transition to blank page
+      setShowBlankPage(true);
+    }
   };
 
   const handleEnvelopeClick = () => {
@@ -186,12 +202,25 @@ export default function Home() {
           >
             ×
           </button>
-          <img 
-            src="/animalprints.png" 
-            alt="Animal Prints" 
-            className="envelope-image letter-reveal"
-            onClick={(e) => e.stopPropagation()}
-          />
+          {!showBlankPage ? (
+            <img 
+              src="/animalprints.png" 
+              alt="Animal Prints" 
+              className="envelope-image letter-reveal"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAnimalPrintsClick();
+              }}
+              style={{ cursor: 'pointer' }}
+            />
+          ) : (
+            <img 
+              src="/blankpage.png" 
+              alt="Blank Page" 
+              className="envelope-image letter-reveal"
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
         </div>
       )}
 
@@ -228,6 +257,14 @@ export default function Home() {
         preload="auto"
       >
         <source src="/audio/purr.mp3" type="audio/mpeg" />
+      </audio>
+
+      {/* Page Flip Sound */}
+      <audio 
+        ref={pageFlipSoundRef}
+        preload="auto"
+      >
+        <source src="/audio/pageflip.mp3" type="audio/mpeg" />
       </audio>
     </div>
   );
