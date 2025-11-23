@@ -9,6 +9,7 @@ export default function Home() {
   const [showLetter, setShowLetter] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const paperSoundRef = useRef<HTMLAudioElement>(null);
 
   const handleHotspotClick = (id: string) => {
     setSelectedHotspot(id);
@@ -30,6 +31,13 @@ export default function Home() {
   const handleEnvelopeClick = () => {
     if (!showLetter && !isTransitioning) {
       setIsTransitioning(true);
+      
+      // Play paper sound effect
+      if (paperSoundRef.current) {
+        paperSoundRef.current.currentTime = 0;
+        paperSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
+      }
+      
       // Wait 2 seconds before showing the letter
       setTimeout(() => {
         setShowLetter(true);
@@ -151,6 +159,14 @@ export default function Home() {
       >
         <source src="/audio/Tavern_Study_Loop_2025-11-22T205621 (1).mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
+      </audio>
+
+      {/* Paper Sound Effect */}
+      <audio 
+        ref={paperSoundRef}
+        preload="auto"
+      >
+        <source src="/audio/paper.mp3" type="audio/mpeg" />
       </audio>
     </div>
   );
