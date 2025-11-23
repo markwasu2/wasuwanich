@@ -53,9 +53,15 @@ export default function Home() {
 
   const handleAnimalPrintsClick = () => {
     if (!showBlankPage) {
-      // Play page flip sound at 150% volume (50% louder)
+      // Play page flip sound at amplified volume (150% using gain)
       if (pageFlipSoundRef.current) {
-        pageFlipSoundRef.current.volume = 1.0; // Max volume since we can't go above 1.0
+        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const source = audioContext.createMediaElementSource(pageFlipSoundRef.current);
+        const gainNode = audioContext.createGain();
+        gainNode.gain.value = 1.5; // 150% volume (50% louder)
+        source.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
         pageFlipSoundRef.current.currentTime = 0;
         pageFlipSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
       }
