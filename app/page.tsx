@@ -23,6 +23,8 @@ export default function Home() {
   const writingSoundRef = useRef<HTMLAudioElement>(null);
   const meowSoundRef = useRef<HTMLAudioElement>(null);
   const purrSoundRef = useRef<HTMLAudioElement>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const pageFlipGainNodeRef = useRef<GainNode | null>(null);
 
   const handleHotspotClick = (id: string) => {
     setSelectedHotspot(id);
@@ -139,12 +141,15 @@ export default function Home() {
     if (!showBlankPage) {
       // Play page flip sound at amplified volume (150% using gain)
       if (pageFlipSoundRef.current) {
-        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-        const source = audioContext.createMediaElementSource(pageFlipSoundRef.current);
-        const gainNode = audioContext.createGain();
-        gainNode.gain.value = 1.5; // 150% volume (50% louder)
-        source.connect(gainNode);
-        gainNode.connect(audioContext.destination);
+        // Initialize audio context and gain node only once
+        if (!audioContextRef.current) {
+          audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+          const source = audioContextRef.current.createMediaElementSource(pageFlipSoundRef.current);
+          pageFlipGainNodeRef.current = audioContextRef.current.createGain();
+          pageFlipGainNodeRef.current.gain.value = 1.5; // 150% volume (50% louder)
+          source.connect(pageFlipGainNodeRef.current);
+          pageFlipGainNodeRef.current.connect(audioContextRef.current.destination);
+        }
         
         pageFlipSoundRef.current.currentTime = 0;
         pageFlipSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
