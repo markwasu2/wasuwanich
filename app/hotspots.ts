@@ -31,15 +31,15 @@ export const HOTSPOTS: Hotspot[] = [
   },
   {
     id: "ink-bottle",
-    x: 72.0,
+    x: 80.0,
     y: 67.0,
     label: "Ink & Quill",
     description: "A delicate ink pot and quill, ready for writing letters to distant friends...",
   },
   {
     id: "letters-box",
-    x: 80.0,
-    y: 66.0,
+    x: 85.0,
+    y: 73.0,
     label: "Sealed Letters",
     description: "A box of letters sealed with wax, containing secrets and stories untold...",
   },
