@@ -13,6 +13,13 @@ export default function Home() {
   const [showWishlist, setShowWishlist] = useState(false);
   const [showChatbox, setShowChatbox] = useState(false);
   const [showKettle, setShowKettle] = useState(false);
+  const [showTrivia, setShowTrivia] = useState(false);
+  const [triviaQuestion, setTriviaQuestion] = useState<any>(null);
+  const [triviaScore, setTriviaScore] = useState(0);
+  const [triviaTotal, setTriviaTotal] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [isLoadingTrivia, setIsLoadingTrivia] = useState(false);
   const [chatMessages, setChatMessages] = useState<{role: string, content: string}[]>([]);
   const [chatInput, setChatInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -101,6 +108,60 @@ export default function Home() {
 
   const closeKettle = () => {
     setShowKettle(false);
+  };
+
+  const closeTrivia = () => {
+    setShowTrivia(false);
+    setTriviaQuestion(null);
+    setSelectedAnswer(null);
+    setShowAnswer(false);
+  };
+
+  const handleKettleClick = async () => {
+    setShowKettle(false);
+    setShowTrivia(true);
+    await loadTriviaQuestion();
+  };
+
+  const loadTriviaQuestion = async () => {
+    setIsLoadingTrivia(true);
+    setSelectedAnswer(null);
+    setShowAnswer(false);
+    
+    try {
+      const response = await fetch("/api/trivia");
+      const data = await response.json();
+      
+      if (data.error) {
+        console.error("Failed to load trivia:", data.error);
+      } else {
+        setTriviaQuestion(data);
+      }
+    } catch (error) {
+      console.error("Trivia loading error:", error);
+    } finally {
+      setIsLoadingTrivia(false);
+    }
+  };
+
+  const handleAnswerSelect = (index: number) => {
+    if (showAnswer) return;
+    setSelectedAnswer(index);
+  };
+
+  const handleAnswerSubmit = () => {
+    if (selectedAnswer === null) return;
+    
+    setShowAnswer(true);
+    setTriviaTotal(prev => prev + 1);
+    
+    if (selectedAnswer === triviaQuestion.correctIndex) {
+      setTriviaScore(prev => prev + 1);
+    }
+  };
+
+  const handleNextQuestion = async () => {
+    await loadTriviaQuestion();
   };
 
   const handlePenDropClick = () => {
@@ -395,8 +456,84 @@ export default function Home() {
             src="/kettle.png" 
             alt="Kettle" 
             className="envelope-image letter-reveal"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleKettleClick();
+            }}
+            style={{ cursor: 'pointer' }}
           />
+        </div>
+      )}
+
+      {/* Trivia Game Overlay */}
+      {showTrivia && (
+        <div className="envelope-overlay" onClick={closeTrivia}>
+          <div className="trivia-container" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="close-button"
+              onClick={closeTrivia}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <h2 className="trivia-title">~ Library Riddles ~</h2>
+            <div className="trivia-score">Score: {triviaScore} / {triviaTotal}</div>
+            
+            {isLoadingTrivia ? (
+              <div className="trivia-loading">Conjuring a riddle...</div>
+            ) : triviaQuestion ? (
+              <div className="trivia-content">
+                <p className="trivia-question">{triviaQuestion.question}</p>
+                
+                <div className="trivia-options">
+                  {triviaQuestion.options.map((option: string, index: number) => (
+                    <button
+                      key={index}
+                      className={`trivia-option ${
+                        selectedAnswer === index ? 'selected' : ''
+                      } ${
+                        showAnswer && index === triviaQuestion.correctIndex ? 'correct' : ''
+                      } ${
+                        showAnswer && selectedAnswer === index && index !== triviaQuestion.correctIndex ? 'incorrect' : ''
+                      }`}
+                      onClick={() => handleAnswerSelect(index)}
+                      disabled={showAnswer}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+
+                {showAnswer && (
+                  <div className={`trivia-feedback ${selectedAnswer === triviaQuestion.correctIndex ? 'correct-feedback' : 'incorrect-feedback'}`}>
+                    <p className="feedback-title">
+                      {selectedAnswer === triviaQuestion.correctIndex ? '✓ Correct!' : '✗ Incorrect'}
+                    </p>
+                    <p className="feedback-explanation">{triviaQuestion.explanation}</p>
+                  </div>
+                )}
+
+                <div className="trivia-actions">
+                  {!showAnswer ? (
+                    <button 
+                      className="trivia-submit" 
+                      onClick={handleAnswerSubmit}
+                      disabled={selectedAnswer === null}
+                    >
+                      Submit Answer
+                    </button>
+                  ) : (
+                    <button 
+                      className="trivia-next" 
+                      onClick={handleNextQuestion}
+                    >
+                      Next Riddle
+                    </button>
+                  )}
+                </div>
+              </div>
+            ) : null}
+          </div>
         </div>
       )}
 
