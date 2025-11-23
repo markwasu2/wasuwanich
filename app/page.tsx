@@ -12,6 +12,7 @@ export default function Home() {
   const [showPenDrop, setShowPenDrop] = useState(false);
   const [showWishlist, setShowWishlist] = useState(false);
   const [showChatbox, setShowChatbox] = useState(false);
+  const [showKettle, setShowKettle] = useState(false);
   const [chatMessages, setChatMessages] = useState<{role: string, content: string}[]>([]);
   const [chatInput, setChatInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -25,6 +26,7 @@ export default function Home() {
   const purrSoundRef = useRef<HTMLAudioElement>(null);
   const notebookSoundRef = useRef<HTMLAudioElement>(null);
   const notebookWriteSoundRef = useRef<HTMLAudioElement>(null);
+  const coffeeSoundRef = useRef<HTMLAudioElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const pageFlipGainNodeRef = useRef<GainNode | null>(null);
 
@@ -70,6 +72,14 @@ export default function Home() {
       }
       setShowChatbox(true);
       setSelectedHotspot(null);
+    } else if (id === "coffee-mug") {
+      // Play coffee sound
+      if (coffeeSoundRef.current) {
+        coffeeSoundRef.current.currentTime = 0;
+        coffeeSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
+      }
+      setShowKettle(true);
+      setSelectedHotspot(null);
     }
   };
 
@@ -87,6 +97,10 @@ export default function Home() {
   const closePenDrop = () => {
     setShowPenDrop(false);
     setShowWishlist(false);
+  };
+
+  const closeKettle = () => {
+    setShowKettle(false);
   };
 
   const handlePenDropClick = () => {
@@ -367,6 +381,25 @@ export default function Home() {
         </div>
       )}
 
+      {/* Kettle Overlay */}
+      {showKettle && (
+        <div className="envelope-overlay" onClick={closeKettle}>
+          <button
+            className="close-button"
+            onClick={closeKettle}
+            aria-label="Close"
+          >
+            ×
+          </button>
+          <img 
+            src="/kettle.png" 
+            alt="Kettle" 
+            className="envelope-image letter-reveal"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
+
       {/* Chatbox Overlay */}
       {showChatbox && (
         <div className="envelope-overlay" onClick={closeChatbox} style={{ zIndex: 200 }}>
@@ -484,6 +517,14 @@ export default function Home() {
         preload="auto"
       >
         <source src="/audio/notebookwrite.mp3" type="audio/mpeg" />
+      </audio>
+
+      {/* Coffee Sound */}
+      <audio 
+        ref={coffeeSoundRef}
+        preload="auto"
+      >
+        <source src="/audio/coffee.mp3" type="audio/mpeg" />
       </audio>
     </div>
   );
