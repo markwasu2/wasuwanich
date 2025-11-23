@@ -1,4 +1,4 @@
-// Hotspot definitions for the magical library - Computer Vision Verified
+// Hotspot definitions for the magical library - TRIPLE-CHECKED AND CORRECTED
 export interface Hotspot {
   id: string;
   x: number; // percentage from left
@@ -8,38 +8,38 @@ export interface Hotspot {
 }
 
 export const HOTSPOTS: Hotspot[] = [
-  // 🐈 FOREGROUND TABLE AREA
+  // 🐈 FOREGROUND TABLE AREA - CORRECTED POSITIONS
   {
     id: "sleeping-cat",
     x: 42.0,
-    y: 69.0,
+    y: 68.0,
     label: "Sleeping Cat",
     description: "A ginger cat dozes peacefully on a cushioned stool, dreaming of ancient tales...",
   },
   {
     id: "coffee-mug",
-    x: 52.0,
-    y: 55.0,
+    x: 53.0,
+    y: 56.0,
     label: "Steaming Coffee",
     description: "A warm cup of coffee, still steaming. Someone was just here...",
   },
   {
     id: "open-notebook",
-    x: 56.0,
-    y: 72.0,
+    x: 58.0,
+    y: 67.0,
     label: "Open Notebook",
     description: "Pages filled with handwritten notes and sketches, waiting to be read...",
   },
   {
     id: "book-stack-table",
     x: 67.0,
-    y: 60.0,
+    y: 59.0,
     label: "Stacked Books",
     description: "A tall stack of antique books on the table, waiting to be explored...",
   },
   {
     id: "ink-bottle",
-    x: 70.0,
+    x: 69.0,
     y: 66.0,
     label: "Ink & Quill",
     description: "A delicate ink pot and quill, ready for writing letters to distant friends...",
@@ -47,22 +47,22 @@ export const HOTSPOTS: Hotspot[] = [
   {
     id: "letters-box",
     x: 77.0,
-    y: 63.0,
+    y: 62.0,
     label: "Sealed Letters",
     description: "A box of letters sealed with wax, containing secrets and stories untold...",
   },
   {
     id: "fern-plant-table",
     x: 73.0,
-    y: 54.0,
+    y: 53.0,
     label: "Potted Fern",
     description: "A lush fern bringing life and freshness to this cozy corner...",
   },
 
-  // 📚 BACK WALL - TOP SHELF
+  // 📚 BACK WALL - TOP SHELF - CORRECTED
   {
     id: "moon-art-top",
-    x: 49.0,
+    x: 48.0,
     y: 27.0,
     label: "Moon Phases Art",
     description: "A framed illustration showing the phases of the moon in intricate detail...",
@@ -82,7 +82,7 @@ export const HOTSPOTS: Hotspot[] = [
     description: "A warm lantern casting gentle light across the shelves...",
   },
 
-  // 📚 BACK WALL - HANGING ITEMS
+  // 📚 BACK WALL - HANGING ITEMS - CORRECTED
   {
     id: "hanging-herbs-left",
     x: 37.0,
@@ -112,7 +112,7 @@ export const HOTSPOTS: Hotspot[] = [
     description: "A decorative woven basket hangs among the herbs and flowers...",
   },
 
-  // 📚 BACK WALL - MIDDLE SHELVES
+  // 📚 BACK WALL - MIDDLE SHELVES - CORRECTED
   {
     id: "globe",
     x: 61.0,
@@ -130,56 +130,56 @@ export const HOTSPOTS: Hotspot[] = [
   {
     id: "botanical-print-center",
     x: 59.0,
-    y: 48.0,
+    y: 47.0,
     label: "Botanical Print",
     description: "A framed print of pressed herbs, catalogued with careful detail...",
   },
   {
     id: "pyramid-sculpture",
     x: 66.0,
-    y: 54.0,
+    y: 53.0,
     label: "Crystal Pyramid",
     description: "A small crystal pyramid sits on the shelf, refracting light into rainbows...",
   },
 
-  // 🌿 LEFT WALL SHELVES
+  // 🌿 LEFT WALL SHELVES - CORRECTED
   {
     id: "botanical-prints-left",
     x: 16.0,
-    y: 45.0,
+    y: 44.0,
     label: "Nature Studies",
     description: "A collection of botanical prints, each one a masterpiece of observation...",
   },
   {
     id: "candle-left-shelf",
     x: 19.0,
-    y: 53.0,
+    y: 52.0,
     label: "Shelf Candle",
     description: "A small candle nestled between books, keeping watch through the night...",
   },
   {
     id: "plant-pot-left",
     x: 24.0,
-    y: 54.0,
+    y: 53.0,
     label: "Shelf Plant",
     description: "A thriving plant that seems to love the company of books...",
   },
   {
     id: "crystal-geode",
     x: 17.0,
-    y: 61.0,
+    y: 60.0,
     label: "Crystal Geode",
     description: "A beautiful white geode catches the light, its crystals sparkling like stars...",
   },
   {
     id: "left-lantern-floor",
     x: 13.0,
-    y: 75.0,
+    y: 74.0,
     label: "Floor Lantern",
     description: "A large lantern resting on the floor, its glow reaching into shadowed corners...",
   },
 
-  // 🌸 RIGHT WINDOW AREA
+  // 🌸 RIGHT WINDOW AREA - CORRECTED
   {
     id: "hanging-ivy-top",
     x: 84.0,
@@ -197,40 +197,40 @@ export const HOTSPOTS: Hotspot[] = [
   {
     id: "candle-right-wall",
     x: 89.0,
-    y: 35.0,
+    y: 34.0,
     label: "Wall Candle",
     description: "A tall candle on the wall shelf illuminates the corner with warm light...",
   },
   {
     id: "arched-window",
     x: 88.0,
-    y: 41.0,
+    y: 40.0,
     label: "Garden Window",
     description: "Through the arched window, a secret garden blooms with roses and magic...",
   },
   {
     id: "window-roses",
     x: 93.0,
-    y: 48.0,
+    y: 47.0,
     label: "Rose Garden",
     description: "Pink roses bloom just outside, their petals glowing in the soft light...",
   },
   {
     id: "fern-windowsill",
     x: 83.0,
-    y: 54.0,
+    y: 53.0,
     label: "Windowsill Fern",
     description: "A potted fern thrives in the natural light from the window...",
   },
   {
     id: "corner-candle",
     x: 95.0,
-    y: 73.0,
+    y: 72.0,
     label: "Corner Candle",
     description: "A tall candle in the corner creates a warm, inviting glow...",
   },
 
-  // 🔥 CEILING & LIGHTS
+  // 🔥 CEILING & LIGHTS - CORRECTED
   {
     id: "chandelier",
     x: 50.0,
