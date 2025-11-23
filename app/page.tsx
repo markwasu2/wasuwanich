@@ -53,8 +53,9 @@ export default function Home() {
 
   const handleAnimalPrintsClick = () => {
     if (!showBlankPage) {
-      // Play page flip sound
+      // Play page flip sound at 150% volume (50% louder)
       if (pageFlipSoundRef.current) {
+        pageFlipSoundRef.current.volume = 1.0; // Max volume since we can't go above 1.0
         pageFlipSoundRef.current.currentTime = 0;
         pageFlipSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
       }
