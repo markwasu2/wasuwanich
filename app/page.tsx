@@ -35,9 +35,11 @@ export default function Home() {
   const handleHotspotDoubleClick = (id: string) => {
     if (id === "letters-box") {
       setShowEnvelope(true);
+      setShowLetter(false);
       setSelectedHotspot(null);
     } else if (id === "sleeping-cat") {
       setShowAnimalPrints(true);
+      setShowBlankPage(false);
       setSelectedHotspot(null);
     } else if (id === "ink-bottle") {
       // Play pen drop sound
