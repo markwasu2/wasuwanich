@@ -10,6 +10,7 @@ export default function Home() {
   const [showAnimalPrints, setShowAnimalPrints] = useState(false);
   const [showBlankPage, setShowBlankPage] = useState(false);
   const [showPenDrop, setShowPenDrop] = useState(false);
+  const [showWishlist, setShowWishlist] = useState(false);
   const [showChatbox, setShowChatbox] = useState(false);
   const [chatMessages, setChatMessages] = useState<{role: string, content: string}[]>([]);
   const [chatInput, setChatInput] = useState("");
@@ -19,6 +20,7 @@ export default function Home() {
   const paperSoundRef = useRef<HTMLAudioElement>(null);
   const pageFlipSoundRef = useRef<HTMLAudioElement>(null);
   const penDropSoundRef = useRef<HTMLAudioElement>(null);
+  const writingSoundRef = useRef<HTMLAudioElement>(null);
   const meowSoundRef = useRef<HTMLAudioElement>(null);
   const purrSoundRef = useRef<HTMLAudioElement>(null);
 
@@ -52,6 +54,7 @@ export default function Home() {
         penDropSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
       }
       setShowPenDrop(true);
+      setShowWishlist(false);
       setSelectedHotspot(null);
     } else if (id === "open-notebook") {
       setShowChatbox(true);
@@ -72,6 +75,20 @@ export default function Home() {
 
   const closePenDrop = () => {
     setShowPenDrop(false);
+    setShowWishlist(false);
+  };
+
+  const handlePenDropClick = () => {
+    if (!showWishlist) {
+      // Play writing sound
+      if (writingSoundRef.current) {
+        writingSoundRef.current.currentTime = 0;
+        writingSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
+      }
+      
+      // Transition to wishlist
+      setShowWishlist(true);
+    }
   };
 
   const closeChatbox = () => {
@@ -308,12 +325,25 @@ export default function Home() {
           >
             ×
           </button>
-          <img 
-            src="/pendrop.png" 
-            alt="Pen Drop" 
-            className="envelope-image letter-reveal"
-            onClick={(e) => e.stopPropagation()}
-          />
+          {!showWishlist ? (
+            <img 
+              src="/pendrop.png" 
+              alt="Pen Drop" 
+              className="envelope-image letter-reveal"
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePenDropClick();
+              }}
+              style={{ cursor: 'pointer' }}
+            />
+          ) : (
+            <img 
+              src="/wishlist.png" 
+              alt="Wishlist" 
+              className="envelope-image letter-reveal"
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
         </div>
       )}
 
@@ -410,6 +440,14 @@ export default function Home() {
         preload="auto"
       >
         <source src="/audio/pendrop.mp3" type="audio/mpeg" />
+      </audio>
+
+      {/* Writing Sound */}
+      <audio 
+        ref={writingSoundRef}
+        preload="auto"
+      >
+        <source src="/audio/writing.mp3" type="audio/mpeg" />
       </audio>
     </div>
   );
