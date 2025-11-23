@@ -25,8 +25,8 @@ export const HOTSPOTS: Hotspot[] = [
   },
   {
     id: "open-notebook",
-    x: 59.0,
-    y: 69.0,
+    x: 56.0,
+    y: 72.0,
     label: "Open Notebook",
     description: "Pages filled with handwritten notes and sketches, waiting to be read...",
   },
