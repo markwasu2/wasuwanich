@@ -41,6 +41,7 @@ export default function Home() {
   };
 
   const handleHotspotDoubleClick = (id: string) => {
+    console.log("Double-clicked hotspot:", id);
     if (id === "letters-box") {
       setShowEnvelope(true);
       setShowLetter(false);
@@ -59,6 +60,7 @@ export default function Home() {
       setShowWishlist(false);
       setSelectedHotspot(null);
     } else if (id === "open-notebook") {
+      console.log("Opening chatbox...");
       setShowChatbox(true);
       setSelectedHotspot(null);
     }
@@ -354,7 +356,7 @@ export default function Home() {
 
       {/* Chatbox Overlay */}
       {showChatbox && (
-        <div className="envelope-overlay" onClick={closeChatbox}>
+        <div className="envelope-overlay" onClick={closeChatbox} style={{ zIndex: 200 }}>
           <div className="chatbox" onClick={(e) => e.stopPropagation()}>
             <button
               className="close-button"
