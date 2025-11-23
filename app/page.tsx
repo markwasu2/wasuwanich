@@ -36,6 +36,8 @@ export default function Home() {
   const coffeeSoundRef = useRef<HTMLAudioElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const pageFlipGainNodeRef = useRef<GainNode | null>(null);
+  const coffeeAudioContextRef = useRef<AudioContext | null>(null);
+  const coffeeGainNodeRef = useRef<GainNode | null>(null);
 
   const handleHotspotClick = (id: string) => {
     setSelectedHotspot(id);
@@ -80,8 +82,18 @@ export default function Home() {
       setShowChatbox(true);
       setSelectedHotspot(null);
     } else if (id === "coffee-mug") {
-      // Play coffee sound
+      // Play coffee sound at amplified volume (300% using gain)
       if (coffeeSoundRef.current) {
+        // Initialize audio context and gain node only once
+        if (!coffeeAudioContextRef.current) {
+          coffeeAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+          const source = coffeeAudioContextRef.current.createMediaElementSource(coffeeSoundRef.current);
+          coffeeGainNodeRef.current = coffeeAudioContextRef.current.createGain();
+          coffeeGainNodeRef.current.gain.value = 3.0; // 300% volume (3x louder)
+          source.connect(coffeeGainNodeRef.current);
+          coffeeGainNodeRef.current.connect(coffeeAudioContextRef.current.destination);
+        }
+        
         coffeeSoundRef.current.currentTime = 0;
         coffeeSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
       }
