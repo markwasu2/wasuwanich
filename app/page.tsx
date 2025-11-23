@@ -16,8 +16,8 @@ export default function Home() {
     const playAudio = async () => {
       if (audioRef.current) {
         try {
-          // Set volume to 20% for very subtle background ambience
-          audioRef.current.volume = 0.2;
+          // Set volume to 10% for very subtle background ambience
+          audioRef.current.volume = 0.1;
           
           // Attempt to play
           await audioRef.current.play();

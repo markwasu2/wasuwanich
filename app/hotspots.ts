@@ -18,8 +18,8 @@ export const HOTSPOTS: Hotspot[] = [
   },
   {
     id: "coffee-mug",
-    x: 54.0,
-    y: 57.0,
+    x: 52.0,
+    y: 55.0,
     label: "Steaming Coffee",
     description: "A warm cup of coffee, still steaming. Someone was just here...",
   },
