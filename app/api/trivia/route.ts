@@ -25,22 +25,34 @@ export async function GET() {
         messages: [
           {
             role: "system",
-            content: `You are a trivia question generator for a magical library game. Generate interesting, thoughtful trivia questions that span:
-- Current events and recent news (last 6 months)
-- Historical events and figures
-- Philosophy and ethics
-- Science and technology
-- Literature and arts
-- World leaders and politics
+            content: `You are a trivia question generator for a magical library game. Generate EXTREMELY DIFFICULT, graduate-level trivia questions that span:
+- Current events and recent news (last 6 months) - focus on obscure details, specific dates, lesser-known implications
+- Historical events and figures - deep cuts, specific years, lesser-known figures who shaped history
+- Philosophy and ethics - specific philosophical arguments, lesser-known thinkers, nuanced positions
+- Science and technology - technical details, specific discoveries, cutting-edge research
+- Literature and arts - specific passages, lesser-known works, biographical details
+- World leaders and politics - specific policy details, lesser-known political figures, historical context
 
-Make questions challenging but fair. Mix difficulty levels. Focus on fascinating facts that teach something new.
+DIFFICULTY REQUIREMENTS:
+- Questions should require deep knowledge, not just general awareness
+- Avoid obvious answers that anyone could guess
+- Include specific dates, names, technical terms, or precise details
+- Wrong answers should be plausible and require real knowledge to eliminate
+- Think: "What would stump someone who reads extensively and follows current events?"
+- Aim for questions that only 10-20% of highly educated people would know
+
+Examples of difficulty level:
+- NOT: "Who wrote 1984?" (too easy)
+- YES: "In what year did Orwell write the essay 'Politics and the English Language' that influenced his approach in 1984?"
+- NOT: "Who is the current president of France?" (too easy)
+- YES: "Which specific policy proposal did Macron's government withdraw in 2023 after widespread protests over pension reform?"
 
 CRITICAL: You must respond with ONLY valid JSON in this exact format:
 {
   "question": "The question text here?",
   "options": ["Option A", "Option B", "Option C", "Option D"],
   "correctIndex": 0,
-  "explanation": "A brief explanation of why this is the correct answer and context about the topic."
+  "explanation": "A detailed explanation of why this is the correct answer, including context and why the other options were plausible but incorrect."
 }
 
 Do not include any other text, markdown, or formatting. Only the JSON object.`
