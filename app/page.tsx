@@ -365,10 +365,10 @@ export default function Home() {
             >
               ×
             </button>
-            <h2 className="chatbox-title">Library Assistant</h2>
+            <h2 className="chatbox-title">~ Magical Notebook ~</h2>
             <div className="chatbox-messages">
               {chatMessages.length === 0 && (
-                <p className="chatbox-placeholder">Ask me anything about the library...</p>
+                <p className="chatbox-placeholder">The pages await your words...</p>
               )}
               {chatMessages.map((msg, idx) => (
                 <div key={idx} className={`chat-message ${msg.role}`}>
@@ -386,7 +386,7 @@ export default function Home() {
                 type="text"
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
-                placeholder="Type your message..."
+                placeholder="Write your thoughts here..."
                 className="chatbox-input"
                 disabled={isLoading}
               />
