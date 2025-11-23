@@ -5,10 +5,22 @@ import { HOTSPOTS } from "./hotspots";
 
 export default function Home() {
   const [selectedHotspot, setSelectedHotspot] = useState<string | null>(null);
+  const [showEnvelope, setShowEnvelope] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const handleHotspotClick = (id: string) => {
     setSelectedHotspot(id);
+  };
+
+  const handleHotspotDoubleClick = (id: string) => {
+    if (id === "letters-box") {
+      setShowEnvelope(true);
+      setSelectedHotspot(null);
+    }
+  };
+
+  const closeEnvelope = () => {
+    setShowEnvelope(false);
   };
 
   // Auto-play music when component mounts
@@ -61,6 +73,7 @@ export default function Home() {
             top: `${hotspot.y}%`,
           }}
           onClick={() => handleHotspotClick(hotspot.id)}
+          onDoubleClick={() => handleHotspotDoubleClick(hotspot.id)}
           aria-label={hotspot.label}
         >
           <span className="hotspot-pulse"></span>
@@ -79,6 +92,25 @@ export default function Home() {
           </button>
           <h2>{selectedHotspotData.label}</h2>
           <p>{selectedHotspotData.description}</p>
+        </div>
+      )}
+
+      {/* Envelope Overlay */}
+      {showEnvelope && (
+        <div className="envelope-overlay" onClick={closeEnvelope}>
+          <button
+            className="close-button"
+            onClick={closeEnvelope}
+            aria-label="Close"
+          >
+            ×
+          </button>
+          <img 
+            src="/envelope.png" 
+            alt="Sealed Letter" 
+            className="envelope-image"
+            onClick={(e) => e.stopPropagation()}
+          />
         </div>
       )}
 
