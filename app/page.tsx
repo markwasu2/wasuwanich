@@ -6,6 +6,8 @@ import { HOTSPOTS } from "./hotspots";
 export default function Home() {
   const [selectedHotspot, setSelectedHotspot] = useState<string | null>(null);
   const [showEnvelope, setShowEnvelope] = useState(false);
+  const [showLetter, setShowLetter] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const handleHotspotClick = (id: string) => {
@@ -21,6 +23,19 @@ export default function Home() {
 
   const closeEnvelope = () => {
     setShowEnvelope(false);
+    setShowLetter(false);
+    setIsTransitioning(false);
+  };
+
+  const handleEnvelopeClick = () => {
+    if (!showLetter && !isTransitioning) {
+      setIsTransitioning(true);
+      // Wait 2 seconds before showing the letter
+      setTimeout(() => {
+        setShowLetter(true);
+        setIsTransitioning(false);
+      }, 2000);
+    }
   };
 
   // Auto-play music when component mounts
@@ -105,12 +120,25 @@ export default function Home() {
           >
             ×
           </button>
-          <img 
-            src="/envelope.png" 
-            alt="Sealed Letter" 
-            className="envelope-image"
-            onClick={(e) => e.stopPropagation()}
-          />
+          {!showLetter ? (
+            <img 
+              src="/envelope.png" 
+              alt="Sealed Letter" 
+              className={`envelope-image ${isTransitioning ? 'transitioning' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEnvelopeClick();
+              }}
+              style={{ cursor: isTransitioning ? 'wait' : 'pointer' }}
+            />
+          ) : (
+            <img 
+              src="/letter.png" 
+              alt="Opened Letter" 
+              className="envelope-image letter-reveal"
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
         </div>
       )}
 
