@@ -23,6 +23,8 @@ export default function Home() {
   const writingSoundRef = useRef<HTMLAudioElement>(null);
   const meowSoundRef = useRef<HTMLAudioElement>(null);
   const purrSoundRef = useRef<HTMLAudioElement>(null);
+  const notebookSoundRef = useRef<HTMLAudioElement>(null);
+  const notebookWriteSoundRef = useRef<HTMLAudioElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const pageFlipGainNodeRef = useRef<GainNode | null>(null);
 
@@ -61,6 +63,11 @@ export default function Home() {
       setSelectedHotspot(null);
     } else if (id === "open-notebook") {
       console.log("Opening chatbox...");
+      // Play notebook sound
+      if (notebookSoundRef.current) {
+        notebookSoundRef.current.currentTime = 0;
+        notebookSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
+      }
       setShowChatbox(true);
       setSelectedHotspot(null);
     }
@@ -102,6 +109,12 @@ export default function Home() {
   const handleChatSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!chatInput.trim() || isLoading) return;
+
+    // Play notebook write sound
+    if (notebookWriteSoundRef.current) {
+      notebookWriteSoundRef.current.currentTime = 0;
+      notebookWriteSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
+    }
 
     const userMessage = chatInput.trim();
     setChatInput("");
@@ -455,6 +468,22 @@ export default function Home() {
         preload="auto"
       >
         <source src="/audio/writing.mp3" type="audio/mpeg" />
+      </audio>
+
+      {/* Notebook Open Sound */}
+      <audio 
+        ref={notebookSoundRef}
+        preload="auto"
+      >
+        <source src="/audio/notebook.mp3" type="audio/mpeg" />
+      </audio>
+
+      {/* Notebook Write Sound */}
+      <audio 
+        ref={notebookWriteSoundRef}
+        preload="auto"
+      >
+        <source src="/audio/notebookwrite.mp3" type="audio/mpeg" />
       </audio>
     </div>
   );
