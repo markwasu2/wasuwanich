@@ -34,6 +34,7 @@ export default function Home() {
   const notebookSoundRef = useRef<HTMLAudioElement>(null);
   const notebookWriteSoundRef = useRef<HTMLAudioElement>(null);
   const coffeeSoundRef = useRef<HTMLAudioElement>(null);
+  const clickSoundRef = useRef<HTMLAudioElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const pageFlipGainNodeRef = useRef<GainNode | null>(null);
   const coffeeAudioContextRef = useRef<AudioContext | null>(null);
@@ -158,11 +159,24 @@ export default function Home() {
 
   const handleAnswerSelect = (index: number) => {
     if (showAnswer) return;
+    
+    // Play click sound
+    if (clickSoundRef.current) {
+      clickSoundRef.current.currentTime = 0;
+      clickSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
+    }
+    
     setSelectedAnswer(index);
   };
 
   const handleAnswerSubmit = () => {
     if (selectedAnswer === null) return;
+    
+    // Play click sound
+    if (clickSoundRef.current) {
+      clickSoundRef.current.currentTime = 0;
+      clickSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
+    }
     
     setShowAnswer(true);
     setTriviaTotal(prev => prev + 1);
@@ -674,6 +688,14 @@ export default function Home() {
         preload="auto"
       >
         <source src="/audio/coffee.mp3" type="audio/mpeg" />
+      </audio>
+
+      {/* Click Sound */}
+      <audio 
+        ref={clickSoundRef}
+        preload="auto"
+      >
+        <source src="/audio/click.mp3" type="audio/mpeg" />
       </audio>
     </div>
   );
