@@ -4,8 +4,8 @@ export async function POST(request: Request) {
   try {
     const { messages } = await request.json();
 
-    // Get API key from environment variable
-    const apiKey = process.env.OPENAI_API_KEY;
+    // Get API key from environment variable (NEVER expose this!)
+    const apiKey = process.env.OPENROUTER_API_KEY;
     
     if (!apiKey) {
       return NextResponse.json(
@@ -14,14 +14,16 @@ export async function POST(request: Request) {
       );
     }
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "application/json",
+        "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "https://wasuwanich.com",
+        "X-Title": "Magical Library Notebook",
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "anthropic/claude-3.5-sonnet",
         messages: [
           {
             role: "system",
