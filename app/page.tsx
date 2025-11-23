@@ -9,10 +9,12 @@ export default function Home() {
   const [showLetter, setShowLetter] = useState(false);
   const [showAnimalPrints, setShowAnimalPrints] = useState(false);
   const [showBlankPage, setShowBlankPage] = useState(false);
+  const [showPenDrop, setShowPenDrop] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const paperSoundRef = useRef<HTMLAudioElement>(null);
   const pageFlipSoundRef = useRef<HTMLAudioElement>(null);
+  const penDropSoundRef = useRef<HTMLAudioElement>(null);
   const meowSoundRef = useRef<HTMLAudioElement>(null);
   const purrSoundRef = useRef<HTMLAudioElement>(null);
 
@@ -37,6 +39,14 @@ export default function Home() {
     } else if (id === "sleeping-cat") {
       setShowAnimalPrints(true);
       setSelectedHotspot(null);
+    } else if (id === "ink-bottle") {
+      // Play pen drop sound
+      if (penDropSoundRef.current) {
+        penDropSoundRef.current.currentTime = 0;
+        penDropSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
+      }
+      setShowPenDrop(true);
+      setSelectedHotspot(null);
     }
   };
 
@@ -49,6 +59,10 @@ export default function Home() {
   const closeAnimalPrints = () => {
     setShowAnimalPrints(false);
     setShowBlankPage(false);
+  };
+
+  const closePenDrop = () => {
+    setShowPenDrop(false);
   };
 
   const handleAnimalPrintsClick = () => {
@@ -231,6 +245,25 @@ export default function Home() {
         </div>
       )}
 
+      {/* Pen Drop Overlay */}
+      {showPenDrop && (
+        <div className="envelope-overlay" onClick={closePenDrop}>
+          <button
+            className="close-button"
+            onClick={closePenDrop}
+            aria-label="Close"
+          >
+            ×
+          </button>
+          <img 
+            src="/pendrop.png" 
+            alt="Pen Drop" 
+            className="envelope-image letter-reveal"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
+
       {/* Audio Element - Seamless Looping */}
       <audio 
         ref={audioRef} 
@@ -272,6 +305,14 @@ export default function Home() {
         preload="auto"
       >
         <source src="/audio/pageflip.mp3" type="audio/mpeg" />
+      </audio>
+
+      {/* Pen Drop Sound */}
+      <audio 
+        ref={penDropSoundRef}
+        preload="auto"
+      >
+        <source src="/audio/pendrop.mp3" type="audio/mpeg" />
       </audio>
     </div>
   );
