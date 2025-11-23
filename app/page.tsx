@@ -86,6 +86,12 @@ export default function Home() {
       {/* Background Image */}
       <div className="background-image"></div>
 
+      {/* Instructions */}
+      <div className="instructions">
+        <p>click once to learn</p>
+        <p>click twice to know</p>
+      </div>
+
       {/* Hotspots */}
       {HOTSPOTS.map((hotspot) => (
         <button
