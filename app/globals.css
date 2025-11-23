@@ -279,3 +279,118 @@ body {
     opacity: 1;
   }
 }
+
+/* Chatbox */
+.chatbox {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  animation: zoomIn 0.4s ease-out;
+}
+
+.chatbox-title {
+  color: #ffd700;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-family: 'Georgia', serif;
+  text-align: center;
+}
+
+.chatbox-messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  min-height: 300px;
+  max-height: 400px;
+}
+
+.chatbox-placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.chat-message {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.chat-message.user {
+  background: rgba(255, 215, 0, 0.2);
+  border-left: 3px solid #ffd700;
+  margin-left: 2rem;
+}
+
+.chat-message.assistant {
+  background: rgba(255, 255, 255, 0.1);
+  border-left: 3px solid rgba(255, 255, 255, 0.3);
+  margin-right: 2rem;
+}
+
+.chat-message p {
+  color: white;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.chatbox-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chatbox-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.chatbox-input:focus {
+  border-color: #ffd700;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.chatbox-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.chatbox-send {
+  background: rgba(255, 215, 0, 0.3);
+  border: 1px solid #ffd700;
+  color: #ffd700;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.chatbox-send:hover:not(:disabled) {
+  background: rgba(255, 215, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.chatbox-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

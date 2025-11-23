@@ -10,6 +10,10 @@ export default function Home() {
   const [showAnimalPrints, setShowAnimalPrints] = useState(false);
   const [showBlankPage, setShowBlankPage] = useState(false);
   const [showPenDrop, setShowPenDrop] = useState(false);
+  const [showChatbox, setShowChatbox] = useState(false);
+  const [chatMessages, setChatMessages] = useState<{role: string, content: string}[]>([]);
+  const [chatInput, setChatInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const paperSoundRef = useRef<HTMLAudioElement>(null);
@@ -49,6 +53,9 @@ export default function Home() {
       }
       setShowPenDrop(true);
       setSelectedHotspot(null);
+    } else if (id === "open-notebook") {
+      setShowChatbox(true);
+      setSelectedHotspot(null);
     }
   };
 
@@ -65,6 +72,50 @@ export default function Home() {
 
   const closePenDrop = () => {
     setShowPenDrop(false);
+  };
+
+  const closeChatbox = () => {
+    setShowChatbox(false);
+  };
+
+  const handleChatSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!chatInput.trim() || isLoading) return;
+
+    const userMessage = chatInput.trim();
+    setChatInput("");
+    setChatMessages(prev => [...prev, { role: "user", content: userMessage }]);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          messages: [...chatMessages, { role: "user", content: userMessage }]
+        }),
+      });
+
+      const data = await response.json();
+      if (data.error) {
+        setChatMessages(prev => [...prev, { 
+          role: "assistant", 
+          content: "Sorry, I encountered an error. Please try again." 
+        }]);
+      } else {
+        setChatMessages(prev => [...prev, { 
+          role: "assistant", 
+          content: data.message 
+        }]);
+      }
+    } catch (error) {
+      setChatMessages(prev => [...prev, { 
+        role: "assistant", 
+        content: "Sorry, I couldn't connect. Please try again later." 
+      }]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleAnimalPrintsClick = () => {
@@ -263,6 +314,50 @@ export default function Home() {
             className="envelope-image letter-reveal"
             onClick={(e) => e.stopPropagation()}
           />
+        </div>
+      )}
+
+      {/* Chatbox Overlay */}
+      {showChatbox && (
+        <div className="envelope-overlay" onClick={closeChatbox}>
+          <div className="chatbox" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="close-button"
+              onClick={closeChatbox}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <h2 className="chatbox-title">Library Assistant</h2>
+            <div className="chatbox-messages">
+              {chatMessages.length === 0 && (
+                <p className="chatbox-placeholder">Ask me anything about the library...</p>
+              )}
+              {chatMessages.map((msg, idx) => (
+                <div key={idx} className={`chat-message ${msg.role}`}>
+                  <p>{msg.content}</p>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="chat-message assistant">
+                  <p>Thinking...</p>
+                </div>
+              )}
+            </div>
+            <form onSubmit={handleChatSubmit} className="chatbox-form">
+              <input
+                type="text"
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                placeholder="Type your message..."
+                className="chatbox-input"
+                disabled={isLoading}
+              />
+              <button type="submit" className="chatbox-send" disabled={isLoading}>
+                Send
+              </button>
+            </form>
+          </div>
         </div>
       )}
 
