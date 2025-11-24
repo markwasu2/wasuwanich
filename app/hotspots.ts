@@ -45,9 +45,9 @@ export const HOTSPOTS: Hotspot[] = [
   },
   {
     id: "window-shelf",
-    x: 70.0,
+    x: 73.0,
     y: 50.0,
-    label: "Mystical Shelf",
-    description: "A shelf by the window holds ancient grimoires and mystical artifacts...",
+    label: "Astrology Chart",
+    description: "An ancient astrology chart reveals the mysteries of the cosmos and memory...",
   },
 ];
