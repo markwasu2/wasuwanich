@@ -727,7 +727,8 @@ body {
   perspective: 1000px;
   position: relative;
   z-index: 1;
-  /* NO transform or translate here */
+  overflow: visible;
+  contain: layout;
 }
 
 .memory-card.flipped {
@@ -747,11 +748,12 @@ body {
   transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .memory-card.flipped .card-inner {
-  transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg) translateZ(0);
+  -webkit-transform: rotateY(180deg) translateZ(0);
 }
 
 .card-front,
