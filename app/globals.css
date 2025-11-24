@@ -714,6 +714,7 @@ body {
 .memory-cards-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   gap: 1rem;
   margin-bottom: 2rem;
   padding: 1rem;
@@ -724,10 +725,12 @@ body {
   aspect-ratio: 2/3;
   cursor: pointer;
   perspective: 1000px;
-  transition: transform 0.2s ease, z-index 0s;
+  transition: z-index 0s;
   position: relative;
   z-index: 1;
   transform-style: preserve-3d;
+  grid-row: span 1;
+  grid-column: span 1;
 }
 
 .memory-card.flipped {
@@ -736,7 +739,6 @@ body {
 }
 
 .memory-card:hover:not(.flipped) {
-  transform: translateY(-5px);
   z-index: 5;
 }
 
