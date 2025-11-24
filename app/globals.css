@@ -724,6 +724,12 @@ body {
   cursor: pointer;
   perspective: 1000px;
   transition: transform 0.2s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.memory-card.flipped {
+  z-index: 10;
 }
 
 .memory-card:hover:not(.flipped) {
