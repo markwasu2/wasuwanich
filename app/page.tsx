@@ -707,13 +707,11 @@ export default function Home() {
                     } ${matchedCards.includes(card.id) ? 'matched' : ''}`}
                     onClick={() => handleCardClick(card.id)}
                   >
-                    <div className="card-inner">
-                      <div className="card-front">
-                        <div className="card-pattern">✦</div>
-                      </div>
-                      <div className="card-back">
-                        <div className="card-symbol">{card.symbol}</div>
-                      </div>
+                    <div className="card-front">
+                      <div className="card-pattern">✦</div>
+                    </div>
+                    <div className="card-back">
+                      <div className="card-symbol">{card.symbol}</div>
                     </div>
                   </div>
                 ))}
