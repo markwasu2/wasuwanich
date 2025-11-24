@@ -24,6 +24,7 @@ export default function Home() {
   const [chatInput, setChatInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const paperSoundRef = useRef<HTMLAudioElement>(null);
   const pageFlipSoundRef = useRef<HTMLAudioElement>(null);
@@ -41,21 +42,35 @@ export default function Home() {
   const coffeeGainNodeRef = useRef<GainNode | null>(null);
 
   const handleHotspotClick = (id: string) => {
-    setSelectedHotspot(id);
-    
-    // If clicking cat, play random meow or purr sound
-    if (id === "sleeping-cat") {
-      const useMeow = Math.random() < 0.5;
-      const soundRef = useMeow ? meowSoundRef : purrSoundRef;
-      if (soundRef.current) {
-        soundRef.current.currentTime = 0;
-        soundRef.current.play().catch(e => console.log("Audio play failed:", e));
-      }
+    // Clear any existing timeout
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
     }
+    
+    // Delay single-click action to check for double-click
+    clickTimeoutRef.current = setTimeout(() => {
+      setSelectedHotspot(id);
+      
+      // If clicking cat, play random meow or purr sound
+      if (id === "sleeping-cat") {
+        const useMeow = Math.random() < 0.5;
+        const soundRef = useMeow ? meowSoundRef : purrSoundRef;
+        if (soundRef.current) {
+          soundRef.current.currentTime = 0;
+          soundRef.current.play().catch(e => console.log("Audio play failed:", e));
+        }
+      }
+    }, 250); // 250ms delay to detect double-click
   };
 
   const handleHotspotDoubleClick = (id: string) => {
     console.log("Double-clicked hotspot:", id);
+    
+    // Clear single-click timeout
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
+      clickTimeoutRef.current = null;
+    }
     
     // Close info panel when double-clicking
     setSelectedHotspot(null);
