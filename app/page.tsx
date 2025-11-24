@@ -56,6 +56,10 @@ export default function Home() {
 
   const handleHotspotDoubleClick = (id: string) => {
     console.log("Double-clicked hotspot:", id);
+    
+    // Close info panel when double-clicking
+    setSelectedHotspot(null);
+    
     if (id === "letters-box") {
       setShowEnvelope(true);
       setShowLetter(false);
@@ -231,11 +235,22 @@ export default function Home() {
         }),
       });
 
-      const data = await response.json();
-      if (data.error) {
+      if (!response.ok) {
+        console.error("Chat API error:", response.status, response.statusText);
         setChatMessages(prev => [...prev, { 
           role: "assistant", 
-          content: "Sorry, I encountered an error. Please try again." 
+          content: `Error: ${response.status}. Please check that the API key is configured in Vercel environment variables.` 
+        }]);
+        setIsLoading(false);
+        return;
+      }
+
+      const data = await response.json();
+      if (data.error) {
+        console.error("Chat error:", data.error);
+        setChatMessages(prev => [...prev, { 
+          role: "assistant", 
+          content: `Error: ${data.error}. Please try again.` 
         }]);
       } else {
         setChatMessages(prev => [...prev, { 
@@ -244,9 +259,10 @@ export default function Home() {
         }]);
       }
     } catch (error) {
+      console.error("Chat fetch error:", error);
       setChatMessages(prev => [...prev, { 
         role: "assistant", 
-        content: "Sorry, I couldn't connect. Please try again later." 
+        content: "Sorry, I couldn't connect. Please check your internet connection and try again." 
       }]);
     } finally {
       setIsLoading(false);
