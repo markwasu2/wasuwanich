@@ -664,3 +664,176 @@ body {
 .trivia-container .close-button:hover {
   color: #5d4e37;
 }
+
+/* Memory Grimoire Game */
+.memory-game-container {
+  background: linear-gradient(135deg, #2d1b4e 0%, #1a0f2e 100%);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  max-width: 700px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(138, 43, 226, 0.3);
+  border: 3px solid #8b4789;
+  animation: zoomIn 0.4s ease-out;
+  position: relative;
+  font-family: 'Georgia', 'Palatino', 'Times New Roman', serif;
+}
+
+.memory-game-title {
+  color: #dda0dd;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Georgia', serif;
+  text-align: center;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(221, 160, 221, 0.5);
+  letter-spacing: 2px;
+  font-style: italic;
+}
+
+.memory-game-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(138, 43, 226, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+.stat {
+  color: #dda0dd;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.memory-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+}
+
+.memory-card {
+  aspect-ratio: 2/3;
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.memory-card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.card-front {
+  background: linear-gradient(135deg, #4a148c 0%, #6a1b9a 100%);
+  border: 2px solid #8b4789;
+}
+
+.card-pattern {
+  font-size: 3rem;
+  color: rgba(221, 160, 221, 0.3);
+  text-shadow: 0 0 10px rgba(221, 160, 221, 0.5);
+}
+
+.card-back {
+  background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 100%);
+  border: 2px solid #8b6f47;
+  transform: rotateY(180deg);
+}
+
+.card-symbol {
+  font-size: 3.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.memory-card.matched {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.memory-card.matched .card-back {
+  background: linear-gradient(135deg, #dda0dd 0%, #ba68c8 100%);
+  border-color: #8b4789;
+}
+
+.memory-game-win {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: rgba(138, 43, 226, 0.1);
+  border-radius: 12px;
+  border: 2px solid #8b4789;
+  margin-bottom: 2rem;
+}
+
+.win-title {
+  font-size: 2.5rem;
+  color: #dda0dd;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 20px rgba(221, 160, 221, 0.8);
+}
+
+.win-message {
+  font-size: 1.3rem;
+  color: #dda0dd;
+  margin-bottom: 2rem;
+}
+
+.memory-reset {
+  background: linear-gradient(135deg, #8b4789 0%, #6a1b9a 100%);
+  border: 2px solid #dda0dd;
+  color: #f5e6d3;
+  padding: 0.875rem 2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  font-family: 'Georgia', serif;
+  display: block;
+  margin: 0 auto;
+}
+
+.memory-reset:hover {
+  background: linear-gradient(135deg, #6a1b9a 0%, #4a148c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(138, 43, 226, 0.4);
+}
+
+.memory-game-container .close-button {
+  color: #dda0dd;
+  font-size: 2.5rem;
+  top: 15px;
+  right: 20px;
+  z-index: 10;
+}
+
+.memory-game-container .close-button:hover {
+  color: #f5e6d3;
+}

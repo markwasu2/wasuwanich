@@ -43,4 +43,11 @@ export const HOTSPOTS: Hotspot[] = [
     label: "Sealed Letters",
     description: "A box of letters sealed with wax, containing secrets and stories untold...",
   },
+  {
+    id: "window-shelf",
+    x: 88.0,
+    y: 35.0,
+    label: "Mystical Shelf",
+    description: "A shelf by the window holds ancient grimoires and mystical artifacts...",
+  },
 ];

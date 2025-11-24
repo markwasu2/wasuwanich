@@ -20,6 +20,12 @@ export default function Home() {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [isLoadingTrivia, setIsLoadingTrivia] = useState(false);
+  const [showMemoryGame, setShowMemoryGame] = useState(false);
+  const [memoryCards, setMemoryCards] = useState<any[]>([]);
+  const [flippedCards, setFlippedCards] = useState<number[]>([]);
+  const [matchedCards, setMatchedCards] = useState<number[]>([]);
+  const [moves, setMoves] = useState(0);
+  const [isChecking, setIsChecking] = useState(false);
   const [chatMessages, setChatMessages] = useState<{role: string, content: string}[]>([]);
   const [chatInput, setChatInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -119,6 +125,10 @@ export default function Home() {
       }
       setShowKettle(true);
       setSelectedHotspot(null);
+    } else if (id === "window-shelf") {
+      setShowMemoryGame(true);
+      initializeMemoryGame();
+      setSelectedHotspot(null);
     }
   };
 
@@ -207,6 +217,73 @@ export default function Home() {
 
   const handleNextQuestion = async () => {
     await loadTriviaQuestion();
+  };
+
+  // Memory Game Functions
+  const cardSymbols = ['🔮', '📚', '🪶', '🕯️', '⚗️', '🗝️', '📜', '✨'];
+  
+  const initializeMemoryGame = () => {
+    // Create pairs of cards
+    const pairs = [...cardSymbols, ...cardSymbols];
+    // Shuffle cards
+    const shuffled = pairs
+      .map((symbol, index) => ({ id: index, symbol, isFlipped: false, isMatched: false }))
+      .sort(() => Math.random() - 0.5);
+    
+    setMemoryCards(shuffled);
+    setFlippedCards([]);
+    setMatchedCards([]);
+    setMoves(0);
+    setIsChecking(false);
+  };
+
+  const handleCardClick = (cardId: number) => {
+    if (isChecking || flippedCards.length >= 2 || flippedCards.includes(cardId) || matchedCards.includes(cardId)) {
+      return;
+    }
+
+    // Play click sound
+    if (clickSoundRef.current) {
+      clickSoundRef.current.currentTime = 0;
+      clickSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
+    }
+
+    const newFlipped = [...flippedCards, cardId];
+    setFlippedCards(newFlipped);
+
+    if (newFlipped.length === 2) {
+      setIsChecking(true);
+      setMoves(prev => prev + 1);
+
+      const [first, second] = newFlipped;
+      const firstCard = memoryCards.find(c => c.id === first);
+      const secondCard = memoryCards.find(c => c.id === second);
+
+      if (firstCard?.symbol === secondCard?.symbol) {
+        // Match found!
+        setMatchedCards(prev => [...prev, first, second]);
+        setFlippedCards([]);
+        setIsChecking(false);
+      } else {
+        // No match, flip back after delay
+        setTimeout(() => {
+          setFlippedCards([]);
+          setIsChecking(false);
+        }, 1000);
+      }
+    }
+  };
+
+  const closeMemoryGame = () => {
+    setShowMemoryGame(false);
+    setMemoryCards([]);
+    setFlippedCards([]);
+    setMatchedCards([]);
+    setMoves(0);
+  };
+
+  const resetMemoryGame = () => {
+    initializeMemoryGame();
   };
 
   const handlePenDropClick = () => {
@@ -590,6 +667,61 @@ export default function Home() {
                 </div>
               </div>
             ) : null}
+          </div>
+        </div>
+      )}
+
+      {/* Memory Grimoire Game Overlay */}
+      {showMemoryGame && (
+        <div className="envelope-overlay" onClick={closeMemoryGame}>
+          <div className="memory-game-container" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="close-button"
+              onClick={closeMemoryGame}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <h2 className="memory-game-title">~ Memory Grimoire ~</h2>
+            <div className="memory-game-stats">
+              <div className="stat">Moves: {moves}</div>
+              <div className="stat">Matched: {matchedCards.length / 2} / {cardSymbols.length}</div>
+            </div>
+            
+            {matchedCards.length === memoryCards.length && memoryCards.length > 0 ? (
+              <div className="memory-game-win">
+                <p className="win-title">✨ Victory! ✨</p>
+                <p className="win-message">You've mastered the grimoire in {moves} moves!</p>
+                <button className="memory-reset" onClick={resetMemoryGame}>
+                  Play Again
+                </button>
+              </div>
+            ) : (
+              <div className="memory-cards-grid">
+                {memoryCards.map((card) => (
+                  <div
+                    key={card.id}
+                    className={`memory-card ${
+                      flippedCards.includes(card.id) || matchedCards.includes(card.id) ? 'flipped' : ''
+                    } ${matchedCards.includes(card.id) ? 'matched' : ''}`}
+                    onClick={() => handleCardClick(card.id)}
+                  >
+                    <div className="card-inner">
+                      <div className="card-front">
+                        <div className="card-pattern">✦</div>
+                      </div>
+                      <div className="card-back">
+                        <div className="card-symbol">{card.symbol}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            
+            <button className="memory-reset" onClick={resetMemoryGame}>
+              Reset Game
+            </button>
           </div>
         </div>
       )}
