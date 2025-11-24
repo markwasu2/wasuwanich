@@ -125,7 +125,7 @@ export default function Home() {
       }
       setShowKettle(true);
       setSelectedHotspot(null);
-    } else if (id === "astrology-chart") {
+    } else if (id === "window-shelf") {
       setShowMemoryGame(true);
       setSelectedHotspot(null);
     }
