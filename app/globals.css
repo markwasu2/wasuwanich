@@ -718,39 +718,31 @@ body {
   gap: 1rem;
   margin-bottom: 2rem;
   padding: 1rem;
-  align-items: stretch;
-  justify-items: stretch;
 }
 
 .memory-card {
   width: 100%;
   height: 100%;
+  min-height: 150px;
+  max-height: 150px;
   cursor: pointer;
-  perspective: 1000px;
   position: relative;
-  z-index: 1;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
+  perspective: 1000px;
+  transform-style: flat;
 }
 
 .memory-card.flipped {
-  z-index: 100 !important;
-}
-
-.memory-card:hover:not(.flipped) {
-  z-index: 5;
+  z-index: 100;
 }
 
 .card-inner {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   transition: transform 0.6s ease;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-  transform-origin: 50% 50%;
 }
 
 .memory-card.flipped .card-inner {
