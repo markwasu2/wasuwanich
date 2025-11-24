@@ -42,6 +42,7 @@ export default function Home() {
   const notebookWriteSoundRef = useRef<HTMLAudioElement>(null);
   const coffeeSoundRef = useRef<HTMLAudioElement>(null);
   const clickSoundRef = useRef<HTMLAudioElement>(null);
+  const cardFlipSoundRef = useRef<HTMLAudioElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const pageFlipGainNodeRef = useRef<GainNode | null>(null);
   const coffeeAudioContextRef = useRef<AudioContext | null>(null);
@@ -242,10 +243,10 @@ export default function Home() {
       return;
     }
 
-    // Play click sound
-    if (clickSoundRef.current) {
-      clickSoundRef.current.currentTime = 0;
-      clickSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
+    // Play card flip sound
+    if (cardFlipSoundRef.current) {
+      cardFlipSoundRef.current.currentTime = 0;
+      cardFlipSoundRef.current.play().catch(e => console.log("Audio play failed:", e));
     }
 
     const newFlipped = [...flippedCards, cardId];
@@ -859,6 +860,14 @@ export default function Home() {
         preload="auto"
       >
         <source src="/audio/click.mp3" type="audio/mpeg" />
+      </audio>
+
+      {/* Card Flip Sound */}
+      <audio 
+        ref={cardFlipSoundRef}
+        preload="auto"
+      >
+        <source src="/audio/cardflip.mp3" type="audio/mpeg" />
       </audio>
     </div>
   );
